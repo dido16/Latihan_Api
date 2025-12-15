@@ -1,6 +1,7 @@
 package com.example.latihan_api.adapter
 
 import android.annotation.SuppressLint
+import android.provider.CalendarContract.Events
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,8 +9,14 @@ import com.example.latihan_api.databinding.ItemCatatanBinding
 import com.example.latihan_api.entities.Catatan
 
 class CatatanAdapter (
-    private val dataset: MutableList<Catatan>
+    private val dataset: MutableList<Catatan>,
+    private val events: CatatanItemEvents
 ): RecyclerView.Adapter<CatatanAdapter.CatatanViewHolder>() {
+
+    interface CatatanItemEvents {
+        fun onEdit(catatan: Catatan)
+    }
+
     inner class CatatanViewHolder(
         val view: ItemCatatanBinding
     ): RecyclerView.ViewHolder(view.root) {

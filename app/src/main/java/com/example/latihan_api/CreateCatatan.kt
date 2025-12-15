@@ -2,7 +2,6 @@ package com.example.latihan_api
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Message
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.latihan_api.databinding.ActivityCreateCatatanBinding
 import com.example.latihan_api.entities.Catatan
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 
 class CreateCatatan : AppCompatActivity() {
     private lateinit var binding: ActivityCreateCatatanBinding
@@ -47,8 +45,7 @@ class CreateCatatan : AppCompatActivity() {
             val payload = Catatan(
                 id = null,
                 judul = judul,
-                isi = isi,
-                user_id = 1
+                isi = isi
             )
 
             lifecycleScope.launch{
