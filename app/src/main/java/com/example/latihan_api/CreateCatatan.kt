@@ -2,6 +2,7 @@ package com.example.latihan_api
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -29,7 +30,6 @@ class CreateCatatan : AppCompatActivity() {
         }
 
         setupEvent()
-
     }
 
     fun setupEvent() {
@@ -45,20 +45,27 @@ class CreateCatatan : AppCompatActivity() {
             val payload = Catatan(
                 id = null,
                 judul = judul,
-                isi = isi
+                isi = isi,
+                user_id = 1
             )
 
             lifecycleScope.launch{
-                val response = RetrofitClient.catatanRepository.createCatatan(payload)
-                if (response.isSuccessful) {
-                    displayMessage("Catatan Berhasil Dibuat")
+                try {
+                    val response = RetrofitClient.catatanRepository.createCatatan(payload)
 
-                    val intent = Intent(this@CreateCatatan, MainActivity::class.java)
-                    startActivity(intent)
-
-                    finish()
-                } else {
-                    displayMessage("Gagal : ${response.message()}")
+                    if (response.isSuccessful) {
+                        displayMessage("Catatan Berhasil Dibuat")
+                        val intent = Intent(this@CreateCatatan, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        val errorBody = response.errorBody()?.string()
+                        Log.e("API_ERROR", "Error: $errorBody")
+                        displayMessage("Gagal: ${response.code()} - Cek Logcat")
+                    }
+                } catch (e: Exception) {
+                    displayMessage("Error Koneksi: ${e.message}")
                 }
             }
         }
@@ -67,5 +74,4 @@ class CreateCatatan : AppCompatActivity() {
     fun displayMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-
 }

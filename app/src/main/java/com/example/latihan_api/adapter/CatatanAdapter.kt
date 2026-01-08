@@ -1,7 +1,6 @@
 package com.example.latihan_api.adapter
 
 import android.annotation.SuppressLint
-import android.provider.CalendarContract.Events
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +14,7 @@ class CatatanAdapter (
 
     interface CatatanItemEvents {
         fun onEdit(catatan: Catatan)
+        fun onDelete(catatan: Catatan)
     }
 
     inner class CatatanViewHolder(
@@ -42,6 +42,17 @@ class CatatanAdapter (
     override fun onBindViewHolder(holder: CatatanViewHolder, position: Int) {
         val dataSekarang = dataset[position]
         holder.setDataKeUI(dataSekarang)
+
+
+        holder.itemView.setOnClickListener {
+            events.onEdit(dataSekarang)
+        }
+
+
+        holder.itemView.setOnLongClickListener {
+            events.onDelete(dataSekarang)
+            true
+        }
     }
 
     @SuppressLint("NotifyDataChanged")
@@ -50,8 +61,4 @@ class CatatanAdapter (
         dataset.addAll(dataBaru)
         notifyDataSetChanged()
     }
-
 }
-
-
-

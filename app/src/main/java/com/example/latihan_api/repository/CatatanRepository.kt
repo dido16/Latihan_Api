@@ -7,6 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.DELETE
 
 interface CatatanRepository {
     @POST("catatan")
@@ -20,4 +21,7 @@ interface CatatanRepository {
 
     @PUT("catatan/{id}")
     suspend fun editCatatan(@Path("id") id: Int, @Body catatan: Catatan): Response<Catatan>
+
+    @DELETE("catatan/{id}")
+    suspend fun deleteCatatan(@Path("id") id: Int): Response<Unit>
 }
